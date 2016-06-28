@@ -1,0 +1,8 @@
+{
+    "name" : "request",
+    "author": "William Giles",
+    "homepage": "https://github.com/Prefinem",
+    "description" : "A Simple HTTP Library for ColdFusion",
+    "keywords" : "http, cfhttp, httpService, request, api",
+    "license" : "MIT"
+}
