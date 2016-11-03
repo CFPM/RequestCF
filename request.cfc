@@ -2,22 +2,22 @@ component {
 	public function init(){
 		return this;
 	}
-	public function post(requestURL, params={}, headers={}, body=''){
+	public function post(requestURL, params={}, headers={}, body='', parsed=true){
 		this.lastURL = requestURL;
 		createService('POST', requestURL);
 		addParams(params, 'formField');
 		addHeaders(headers);
 		addBody(body);
-		var response = sendRequest();
+		var response = sendRequest(parsed);
 		destroyService();
 		return response;
 	}
-	public function get(requestURL, params={}, headers={}){
+	public function get(requestURL, params={}, headers={}, parsed=true){
 		this.lastURL = requestURL;
 		createService('GET', requestURL);
 		addParams(params, 'URL');
 		addHeaders(headers);
-		var response = sendRequest();
+		var response = sendRequest(parsed);
 		destroyService();
 		return response;
 	}
@@ -44,25 +44,29 @@ component {
 		}
 	}
 
-	private function sendRequest(){
+	private function sendRequest(parsed){
 		this.response = this.httpService.send().getPrefix();
 		if(left(this.response.statuscode, 2) == '20'){
-			try{
-				this.results = deserializeJSON(this.response.filecontent);
-			}catch(any e){
+			if(parsed){
 				try{
-					if(isXML(this.response.filecontent)){
-						this.results = XMLParse(this.response.filecontent);
-					}else{
+					this.results = deserializeJSON(this.response.filecontent);
+				}catch(any e){
+					try{
+						if(isXML(this.response.filecontent)){
+							this.results = XMLParse(this.response.filecontent);
+						}else{
+							this.results = this.response.filecontent;
+						}
+					}catch(any e){
 						this.results = this.response.filecontent;
 					}
-				}catch(any e){
-					this.results = this.response.filecontent;
 				}
+				return this.results;
+			}else{
+				return this.response.filecontent;
 			}
-			return this.results;
 		}else{
-			throw('Received status #result.statuscode# for request to: #this.lastURL#');
+			throw('Received status #this.response.statuscode# for request to: #this.lastURL#');
 		}
 	}
 
