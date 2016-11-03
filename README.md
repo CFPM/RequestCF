@@ -12,11 +12,11 @@ MIT http://opensource.org/licenses/MIT
 
 ##Installation
 
-Request CF is installed using CFPM or can be downloaded from source
+RequestCF is installed using CFPM or can be downloaded from source
 
 ###CFPM
 
-    cfpm request
+    cfpm add request
 
 ##Basic Usage
 
