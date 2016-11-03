@@ -16,7 +16,7 @@ Request CF is installed using CFPM or can be downloaded from source
 
 ###CFPM
 
-    python cfpm.py require request
+    cfpm request
 
 ##Basic Usage
 
